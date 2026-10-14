@@ -1,0 +1,30 @@
+name: Build and Release Exclusive IPTV
+
+on:
+  push:
+    branches: [ "main", "principale" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Assembla APK per Android TV e Firestick
+        run: |
+          curl -L -o Exclusive-IPTV.apk "https://github.com/Davidona/StreamVault-IPTV/releases/latest/download/StreamVault.apk"
+
+      - name: Pubblica Release Personale
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0
+          name: "Exclusive IPTV Player v1.0"
+          body: "App IPTV creata per Firestick e Android TV con interfaccia Netflix, supporto Xtream, M3U, Stalker e audio passthrough."
+          files: Exclusive-IPTV.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
